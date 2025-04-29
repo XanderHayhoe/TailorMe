@@ -34,7 +34,7 @@ def login_and_save_cookies():
     with open(cookies_file, "wb") as f:
         pickle.dump(driver.get_cookies(), f)
 
-def load_cookies_and_navigate():
+def load_cookies_and_navigate_jobs():
     driver.get("https://www.linkedin.com")  # Must visit domain before adding cookies
     with open(cookies_file, "rb") as f:
         cookies = pickle.load(f)
@@ -56,17 +56,18 @@ def load_cookies_and_navigate():
         if location_box.is_displayed() and location_box.is_enabled():
             location_box.clear()
             location_box.send_keys("Toronto, Ontario, Canada")
+            location_box.send_keys(Keys.RETURN)
             break
     else:
         print("No interactable location input found!")
 
+ 
 if not os.path.exists(cookies_file):
     login_and_save_cookies()
     driver.get(jobs_url)
 else:
-    load_cookies_and_navigate()
+    load_cookies_and_navigate_jobs()
 
-print(driver.page_source)  # Print the HTML after login/cookie load
 
 time.sleep(20)
 driver.quit()
