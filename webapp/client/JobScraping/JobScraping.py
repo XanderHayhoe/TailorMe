@@ -42,14 +42,23 @@ def load_cookies_and_navigate():
         driver.add_cookie(cookie)
     driver.get(jobs_url)
     wait = WebDriverWait(driver, 10)
-    inputs = driver.find_elements(By.CSS_SELECTOR, "input[aria-label='Search by title, skill, or company']")
-    for input_box in inputs:
+    job_title_inputs = driver.find_elements(By.CSS_SELECTOR, "input[aria-label='Search by title, skill, or company']")
+    for input_box in job_title_inputs:
         if input_box.is_displayed() and input_box.is_enabled():
             input_box.clear()
             input_box.send_keys("Software Engineer")
             break
     else:
         print("No interactable input found!")
+
+    location_inputs = driver.find_elements(By.CSS_SELECTOR, "input[aria-label='City, state, or zip code']")
+    for location_box in location_inputs:
+        if location_box.is_displayed() and location_box.is_enabled():
+            location_box.clear()
+            location_box.send_keys("Toronto, Ontario, Canada")
+            break
+    else:
+        print("No interactable location input found!")
 
 if not os.path.exists(cookies_file):
     login_and_save_cookies()
